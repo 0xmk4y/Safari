@@ -2,6 +2,7 @@ import requests
 import argparse
 import threading
 import time
+from colorama import Fore, Back, Style
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--username','-u', type=str, required=True)
@@ -24,6 +25,8 @@ def check_password(passwd):
 
 start = time.perf_counter()
 
+
+
 #reading wordlist file
 with open(wordlists_path) as wordlists:
     try:
@@ -37,6 +40,7 @@ with open(wordlists_path) as wordlists:
             t.join()
     except KeyboardInterrupt:
         print("[+]Quitting... ")
+
 
 
 finish = time.perf_counter()
